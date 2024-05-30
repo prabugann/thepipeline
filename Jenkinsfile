@@ -24,5 +24,4 @@ pipeline {
                 sh 'sudo systemctl restart nginx'
             }
     }
-    }
 }
