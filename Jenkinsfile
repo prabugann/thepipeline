@@ -21,11 +21,28 @@ pipeline {
                 echo 'skipping test'
             }
         }
-        stage('Deploy') {
+       stage('Install Nginx') {
             steps {
-                sh 'sudo apt-get update && sudo apt-get install -y nginx'
-                sh 'sudo cp index.html /var/www/html/'
-                sh 'sudo systemctl restart nginx'
+                script {
+                    // Update package lists and install nginx
+                    sh 'sudo apt-get update && sudo apt-get install -y nginx'
+                }
+            }
+        }
+        stage('Deploy Index.html') {
+            steps {
+                script {
+                    // Copy index.html to the appropriate location
+                    sh 'sudo cp index.html /var/www/html/'
+                }
+            }
+        }
+        stage('Restart Nginx') {
+            steps {
+                script {
+                    // Restart nginx to apply changes
+                    sh 'sudo systemctl restart nginx'
+                }
             }
         }
     }
